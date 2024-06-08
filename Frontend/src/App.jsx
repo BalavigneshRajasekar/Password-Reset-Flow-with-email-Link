@@ -1,10 +1,11 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Register from "./Components/Register";
 
 function App() {
   return (
     <>
-      <div>Hello</div>
+      <Register></Register>
     </>
   );
 }
