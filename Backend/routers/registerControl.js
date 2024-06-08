@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/user", async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(name);
+
   try {
     const mailCheck = await signup.findOne({ email: email });
     if (mailCheck) {

@@ -1,47 +1,25 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Register() {
+function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/register/user",
-        formData
-      );
-      navigate("/login");
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
+    alert("Build only for forgot password");
+  };
+  const callForgotpassword = () => {
+    navigate("/forgotPassword");
   };
   return (
     <div className="container">
-      <h4 className="m-5 px-5 text-success">Registration form</h4>
+      <h4 className="m-5 px-5 text-success">Sign IN</h4>
       <form onSubmit={handleSubmit} className="form m-md-5 px-5">
-        <label htmlFor="name" className="col-form-label">
-          Name
-        </label>
-        <input
-          placeholder="johndoe"
-          className="form-control"
-          type="text"
-          id="name"
-          value={formData.name}
-          onChange={(e) =>
-            setFormData({ ...formData, ["name"]: e.target.value })
-          }
-        />
-        <br></br>
         <label htmlFor="email" className="col-form-label">
           Email
         </label>
@@ -69,12 +47,15 @@ function Register() {
           }
         />
         <br></br>
-        <button className="btn btn-primary" type="submit">
-          Submit
-        </button>
+        <div className="d-flex justify-content-between">
+          <button className="btn btn-primary" type="submit">
+            Submit
+          </button>
+          <span onClick={callForgotpassword}>forgot Password ?</span>
+        </div>
       </form>
     </div>
   );
 }
 
-export default Register;
+export default Login;
