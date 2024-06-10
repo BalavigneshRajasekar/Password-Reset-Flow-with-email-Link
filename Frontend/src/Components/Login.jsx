@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Login() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,9 +12,7 @@ function Login() {
     console.log(formData);
     alert("Build only for forgot password");
   };
-  const callForgotpassword = () => {
-    navigate("/forgotPassword");
-  };
+
   return (
     <div className="container">
       <h4 className="m-5 px-5 text-success">Sign IN</h4>
@@ -47,11 +44,12 @@ function Login() {
           }
         />
         <br></br>
+
         <div className="d-flex justify-content-between">
           <button className="btn btn-primary" type="submit">
             Submit
           </button>
-          <span onClick={callForgotpassword}>forgot Password ?</span>
+          <Link to={"/forgotPassword"}>forgot Password ?</Link>
         </div>
       </form>
     </div>

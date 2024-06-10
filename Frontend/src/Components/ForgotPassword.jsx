@@ -3,9 +3,11 @@ import React, { useState } from "react";
 
 function ForgotPassword() {
   const [formData, setFormData] = useState();
+  const [code, setCode] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    setCode(true);
   };
   return (
     <div>
@@ -23,6 +25,14 @@ function ForgotPassword() {
             value={formData}
             onChange={(e) => setFormData(e.target.value)}
           />
+          <br></br>
+          {code && (
+            <input
+              type="text"
+              className="form-control"
+              placeholder="enter code"
+            ></input>
+          )}
           <br></br>
 
           <button className="btn btn-primary" type="submit">
