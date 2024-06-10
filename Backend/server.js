@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const router = require("./routers/registerControl");
+const resetRouter = require("./routers/resetLink.js");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/register", router);
+app.use("/api", resetRouter);
 mongoose.connect("mongodb://localhost:27017/Project_resetPassword").then(() => {
   console.log("Database connected");
   app.listen(3000, () => {
