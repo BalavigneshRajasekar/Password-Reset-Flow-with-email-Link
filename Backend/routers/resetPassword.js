@@ -1,0 +1,96 @@
+const express = require("express");
+const nodeMailer = require("nodemailer");
+const mailDesign = require("mailgen");
+const signup = require("../models/signup.js");
+
+const resetPassword = express.Router();
+
+resetPassword.post("/reset/password", async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    const checkCode = await signup.findOne({ resetCode: code });
+    if (!checkCode) {
+      return res.status(400).json({ message: "Invalid Code" });
+    }
+
+    const mailGenerator = new mailDesign({
+      theme: "default",
+      product: {
+        name: "Reset Password",
+        link: "http://localhost:3000",
+      },
+    });
+
+    const mail = mailGenerator.generate({
+      body: {
+        name: checkCode.name,
+        intro: `Hi ${checkCode.name}`,
+        action: {
+          instructions: "To reset your password, click the below button:",
+          button: {
+            color: "#22BC66",
+            text: "Reset Password",
+            link: `http://localhost:3000/api/resetPassword/${checkCode._id}`,
+          },
+        },
+      },
+    });
+
+    const transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "vigneshvickybsc1999@gmail.com",
+        pass: "nudjwwnwfcovcrbb",
+      },
+    });
+
+    const messages = {
+      from: "vigneshvickybsc1999@gmail.com",
+      to: checkCode.email,
+      subject: "Reset Password",
+      text: "Hi find Reset Password here",
+      html: mail,
+    };
+
+    transporter
+      .sendMail(messages)
+      .then(() => {
+        res
+          .status(200)
+          .json({ message: "Reset Password link send successfully" });
+      })
+      .catch((err) => {
+        res.status(500).json({ message: "error while sending link" });
+      });
+  } catch (err) {
+    res.status(500).json({ message: "server error" });
+  }
+});
+
+// render Reset password page SSR
+
+resetPassword.get("/resetPassword/:id", async (req, res) => {
+  const { id } = req.params;
+  const verifyUser = await signup.findOne({ _id: id });
+  if (!verifyUser) {
+    return res.status(400).json({ message: "Invalid Link" });
+  }
+  res.render("resetPassword", {
+    email: verifyUser.email,
+  });
+});
+
+//reset the password
+resetPassword.post("/resetPassword/:id", async (req, res) => {
+  const { newPassword } = req.body;
+  const { id } = req.params;
+  try {
+    await signup.updateOne({ _id: id }, { $set: { password: newPassword } });
+    res.status(200).send({ message: "new password changed" });
+  } catch (err) {
+    res.status(500).json({ message: "server error" });
+  }
+});
+
+module.exports = resetPassword;

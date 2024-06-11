@@ -1,13 +1,29 @@
 /* eslint-disable no-unused-vars */
+import axios from "axios";
 import React, { useState } from "react";
 
 function ForgotPassword() {
-  const [formData, setFormData] = useState();
+  const [userMail, setUserMail] = useState();
   const [code, setCode] = useState(false);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    setCode(true);
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/resetLink", {
+        userMail,
+      });
+      console.log(response);
+      setCode(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCode = (e) => {
+    let data = e.target.value;
+    if (data.length >= 5) {
+      console.log(e.target.value);
+    }
   };
   return (
     <div>
@@ -22,12 +38,13 @@ function ForgotPassword() {
             className="form-control"
             type="email"
             id="email"
-            value={formData}
-            onChange={(e) => setFormData(e.target.value)}
+            value={userMail}
+            onChange={(e) => setUserMail(e.target.value)}
           />
           <br></br>
           {code && (
             <input
+              onChange={handleCode}
               type="text"
               className="form-control"
               placeholder="enter code"

@@ -1,6 +1,7 @@
 const express = require("express");
 const nodeMailer = require("nodemailer");
 const mailDesign = require("mailgen");
+const signup = require("../models/signup.js");
 
 const resetRouter = express.Router();
 //FUnction for create Random string
@@ -19,29 +20,28 @@ function randomString(length) {
 
 resetRouter.post("/resetLink", async (req, res) => {
   const { userMail } = req.body;
+  console.log(userMail);
+  console.log(req.body);
   const code = randomString(5);
   try {
     //Mail design
+    const mailCheck = await signup.findOne({ email: userMail });
+    if (!mailCheck) {
+      return res.status(400).json({ message: "Email does not exists" });
+    }
     const mailGenerator = new mailDesign({
       theme: "default",
       product: {
-        name: "Password Reset",
+        name: "Verification code",
         link: "http://localhost:3000",
       },
     });
 
     const mail = mailGenerator.generate({
       body: {
-        name: "Vignesh",
-        intro: "Hi Vignesh",
-        action: {
-          instructions: "To reset your password, click the button below:",
-          button: {
-            color: "#22BC66",
-            text: "Reset Password",
-            link: `https://www.facebook.com`,
-          },
-        },
+        name: mailCheck.name,
+        intro: `verification code ${code}`,
+        greeting: `Find your Verification code below`,
       },
     });
 
@@ -63,7 +63,9 @@ resetRouter.post("/resetLink", async (req, res) => {
     transporter
       .sendMail(messages)
       .then((info) => {
-        res.status(200).json({ message: "Email sent" });
+        mailCheck.resetCode = code;
+        mailCheck.save();
+        res.status(200).json({ message: "Verification code sent" });
       })
       .catch((err) => {
         return res
