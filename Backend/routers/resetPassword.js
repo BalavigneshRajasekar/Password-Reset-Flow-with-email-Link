@@ -2,6 +2,7 @@ const express = require("express");
 const nodeMailer = require("nodemailer");
 const mailDesign = require("mailgen");
 const signup = require("../models/signup.js");
+const bcrypt = require("bcrypt");
 
 const resetPassword = express.Router();
 
@@ -76,18 +77,29 @@ resetPassword.get("/resetPassword/:id", async (req, res) => {
   if (!verifyUser) {
     return res.status(400).json({ message: "Invalid Link" });
   }
+  if (verifyUser.resetCode == null) {
+    return res.status(400).json({ message: "Link expired" });
+  }
   res.render("resetPassword", {
     email: verifyUser.email,
   });
 });
 
-//reset the password
+//reset the password and render the succesfull message
 resetPassword.post("/resetPassword/:id", async (req, res) => {
   const { newPassword } = req.body;
   const { id } = req.params;
   try {
-    await signup.updateOne({ _id: id }, { $set: { password: newPassword } });
-    res.status(200).send({ message: "new password changed" });
+    const hashPassword = await bcrypt.hash(newPassword, 10);
+    const user = await signup.findOne({ _id: id });
+    user.password = hashPassword;
+    user.resetCode = null;
+    await user.save();
+
+    // await signup.updateOne({ _id: id }, { $set: { password: hashPassword } });
+    res.render("successfullmsg", {
+      name: user.name,
+    });
   } catch (err) {
     res.status(500).json({ message: "server error" });
   }

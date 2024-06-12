@@ -4,10 +4,13 @@ import React, { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function ForgotPassword() {
   const [userMail, setUserMail] = useState();
+
   const [code, setCode] = useState(false);
+  const [btnLoad, setBtnLoad] = useState(false);
   const [snackBar, setSnackBar] = useState({
     open: false,
     message: "",
@@ -18,11 +21,12 @@ function ForgotPassword() {
   const { vertical, horizontal } = snackBar;
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setBtnLoad(true);
     try {
       const response = await axios.post("http://localhost:3000/api/resetLink", {
         userMail,
       });
+      setBtnLoad(false);
       setSnackBar({
         ...snackBar,
         open: true,
@@ -32,7 +36,7 @@ function ForgotPassword() {
 
       setCode(true);
     } catch (error) {
-      console.log(error);
+      setBtnLoad(false);
       setSnackBar({
         ...snackBar,
         open: true,
@@ -42,10 +46,31 @@ function ForgotPassword() {
     }
   };
 
-  const handleCode = (e) => {
-    let data = e.target.value;
-    if (data.length >= 5) {
-      console.log(e.target.value);
+  const handleCode = async (e) => {
+    let code = e.target.value;
+    if (code.length >= 5) {
+      setBtnLoad(true);
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/reset/password",
+          { code }
+        );
+        setSnackBar({
+          ...snackBar,
+          open: true,
+          severity: "success",
+          message: response.data.message,
+        });
+        setBtnLoad(false);
+      } catch (err) {
+        setSnackBar({
+          ...snackBar,
+          open: true,
+          severity: "error",
+          message: err.response.data.message,
+        });
+        setBtnLoad(false);
+      }
     }
   };
   const handleClose = () => {
@@ -78,9 +103,11 @@ function ForgotPassword() {
           )}
           <br></br>
 
-          <button className="btn btn-primary" type="submit">
-            Send verification code
-          </button>
+          <span>
+            <LoadingButton loading={btnLoad} variant="contained" type="submit">
+              <span>Send verification code</span>
+            </LoadingButton>
+          </span>
           <Snackbar
             open={snackBar.open}
             onClose={handleClose}

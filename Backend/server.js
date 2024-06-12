@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const router = require("./routers/registerControl");
 const resetRouter = require("./routers/resetLink.js");
 const resetPassword = require("./routers/resetPassword.js");
+const loginRouter = require("./routers/loginControl.js");
 
 const app = express();
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use("/register", router);
+app.use("/registered/user", loginRouter);
 app.use("/api", resetRouter);
 
 app.use("/api", resetPassword);

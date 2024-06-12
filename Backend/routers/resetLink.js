@@ -17,11 +17,10 @@ function randomString(length) {
   }
   return result;
 }
-
+//Api to generate random string code for reset password
 resetRouter.post("/resetLink", async (req, res) => {
   const { userMail } = req.body;
-  console.log(userMail);
-  console.log(req.body);
+
   const code = randomString(5);
   try {
     //Mail design
