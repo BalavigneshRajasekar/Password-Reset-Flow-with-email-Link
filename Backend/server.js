@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 const router = require("./routers/registerControl");
 const resetRouter = require("./routers/resetLink.js");
 const resetPassword = require("./routers/resetPassword.js");
@@ -17,7 +18,7 @@ app.use("/registered/user", loginRouter);
 app.use("/api", resetRouter);
 
 app.use("/api", resetPassword);
-mongoose.connect("mongodb://localhost:27017/Project_resetPassword").then(() => {
+mongoose.connect(process.env.MONGODB).then(() => {
   console.log("Database connected");
   app.listen(3000, () => {
     console.log("Server is running on port 3000");
