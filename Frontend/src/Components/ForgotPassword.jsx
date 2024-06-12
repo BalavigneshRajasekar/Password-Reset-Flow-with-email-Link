@@ -82,7 +82,7 @@ function ForgotPassword() {
   return (
     <div>
       <div className="container bg-light py-3 mt-3 rounded-5">
-        <h4 className="m-5 px-5 text-success">Verification Code</h4>
+        <h4 className="py-3 px-5 text-success">Verification Code</h4>
         <form onSubmit={handleSubmit} className="form m-md-5 px-5">
           <label htmlFor="email" className="col-form-label">
             Email
