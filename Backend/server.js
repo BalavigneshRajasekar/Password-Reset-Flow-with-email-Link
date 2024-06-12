@@ -9,6 +9,7 @@ const resetPassword = require("./routers/resetPassword.js");
 const loginRouter = require("./routers/loginControl.js");
 
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
