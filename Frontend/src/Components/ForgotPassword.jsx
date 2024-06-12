@@ -24,7 +24,7 @@ function ForgotPassword() {
     setBtnLoad(true);
     try {
       const response = await axios.post(
-        "https://resetpassword-api.onrender.com/api/resetLink",
+        "https://resetpassword-api.onrender.com/api1/resetLink",
         {
           userMail,
         }
