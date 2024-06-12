@@ -15,7 +15,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use("/register", router);
 app.use("/registered/user", loginRouter);
-app.use("/api", resetRouter);
+app.use("/api1", resetRouter);
 
 app.use("/api", resetPassword);
 mongoose.connect(process.env.MONGODB).then(() => {
