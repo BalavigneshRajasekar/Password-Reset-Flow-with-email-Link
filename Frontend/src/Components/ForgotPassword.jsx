@@ -1,10 +1,21 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import React, { useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 function ForgotPassword() {
   const [userMail, setUserMail] = useState();
   const [code, setCode] = useState(false);
+  const [snackBar, setSnackBar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal } = snackBar;
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -12,10 +23,22 @@ function ForgotPassword() {
       const response = await axios.post("http://localhost:3000/api/resetLink", {
         userMail,
       });
-      console.log(response);
+      setSnackBar({
+        ...snackBar,
+        open: true,
+        severity: "success",
+        message: response.data.message,
+      });
+
       setCode(true);
     } catch (error) {
       console.log(error);
+      setSnackBar({
+        ...snackBar,
+        open: true,
+        severity: "error",
+        message: error.response.data.message,
+      });
     }
   };
 
@@ -25,10 +48,13 @@ function ForgotPassword() {
       console.log(e.target.value);
     }
   };
+  const handleClose = () => {
+    setSnackBar({ ...snackBar, open: false });
+  };
   return (
     <div>
-      <div className="container">
-        <h4 className="m-5 px-5 text-success">Registration form</h4>
+      <div className="container bg-light py-3 mt-3">
+        <h4 className="m-5 px-5 text-success">Verification Code</h4>
         <form onSubmit={handleSubmit} className="form m-md-5 px-5">
           <label htmlFor="email" className="col-form-label">
             Email
@@ -53,8 +79,20 @@ function ForgotPassword() {
           <br></br>
 
           <button className="btn btn-primary" type="submit">
-            Send reset link
+            Send verification code
           </button>
+          <Snackbar
+            open={snackBar.open}
+            onClose={handleClose}
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical, horizontal }}
+            key={vertical + horizontal}
+          >
+            <Alert severity={snackBar.severity}>
+              <AlertTitle>{snackBar.severity}</AlertTitle>
+              {snackBar.message}
+            </Alert>
+          </Snackbar>
         </form>
       </div>
     </div>

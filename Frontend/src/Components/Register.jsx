@@ -2,9 +2,20 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 function Register() {
   const navigate = useNavigate();
+  const [snackBar, setSnackBar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal } = snackBar;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,20 +23,35 @@ function Register() {
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
     try {
       const res = await axios.post(
         "http://localhost:3000/register/user",
         formData
       );
-      navigate("/login");
+      setSnackBar({
+        ...snackBar,
+        open: true,
+        severity: "success",
+        message: res.data.message,
+      });
+      // navigate("/login");
       console.log(res);
     } catch (e) {
-      console.log(e);
+      setSnackBar({
+        ...snackBar,
+        open: true,
+        severity: "error",
+        message: e.response.data.message,
+      });
     }
   };
+
+  const handleClose = () => {
+    setSnackBar({ ...snackBar, open: false });
+  };
   return (
-    <div className="container">
+    <div className="container bg-light py-3 mt-3">
       <h4 className="m-5 px-5 text-success">Registration form</h4>
       <form onSubmit={handleSubmit} className="form m-md-5 px-5">
         <label htmlFor="name" className="col-form-label">
@@ -72,6 +98,18 @@ function Register() {
         <button className="btn btn-primary" type="submit">
           Submit
         </button>
+        <Snackbar
+          open={snackBar.open}
+          onClose={handleClose}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical, horizontal }}
+          key={vertical + horizontal}
+        >
+          <Alert severity={snackBar.severity}>
+            <AlertTitle>{snackBar.severity}</AlertTitle>
+            {snackBar.message}
+          </Alert>
+        </Snackbar>
       </form>
     </div>
   );
