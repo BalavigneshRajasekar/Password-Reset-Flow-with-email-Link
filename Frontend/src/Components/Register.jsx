@@ -26,7 +26,7 @@ function Register() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/register/user",
+        "https://resetpassword-api.onrender.com/register/user",
         formData
       );
       setSnackBar({

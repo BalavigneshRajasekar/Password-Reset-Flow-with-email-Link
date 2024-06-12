@@ -23,9 +23,12 @@ function ForgotPassword() {
     e.preventDefault();
     setBtnLoad(true);
     try {
-      const response = await axios.post("http://localhost:3000/api/resetLink", {
-        userMail,
-      });
+      const response = await axios.post(
+        "https://resetpassword-api.onrender.com/api/resetLink",
+        {
+          userMail,
+        }
+      );
       setBtnLoad(false);
       setSnackBar({
         ...snackBar,
@@ -52,7 +55,7 @@ function ForgotPassword() {
       setBtnLoad(true);
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/reset/password",
+          "https://resetpassword-api.onrender.com/api/reset/password",
           { code }
         );
         setSnackBar({
