@@ -35,7 +35,10 @@ function Register() {
         severity: "success",
         message: res.data.message,
       });
-      // navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 4000);
+
       console.log(res);
     } catch (e) {
       setSnackBar({
@@ -51,7 +54,7 @@ function Register() {
     setSnackBar({ ...snackBar, open: false });
   };
   return (
-    <div className="container bg-light py-3 mt-3">
+    <div className="container bg-light py-3 mt-3 rounded-5">
       <h4 className="m-5 px-5 text-success">Registration form</h4>
       <form onSubmit={handleSubmit} className="form m-md-5 px-5">
         <label htmlFor="name" className="col-form-label">
