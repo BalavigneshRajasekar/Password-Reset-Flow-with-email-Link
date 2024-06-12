@@ -124,6 +124,7 @@ function ForgotPassword() {
             </Alert>
           </Snackbar>
         </form>
+        <p className="text-center pt-5 mt-5">@2024.All rights Reserved</p>
       </div>
     </div>
   );

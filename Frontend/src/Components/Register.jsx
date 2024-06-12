@@ -71,7 +71,7 @@ function Register() {
           ></PersonPinIcon>
         </h1>
       </div>
-      <div className="container bg-light py-3 mt-3 rounded-5">
+      <div className="container bg-light   rounded-5">
         <div className="d-flex justify-content-between px-5 m-md-5 py-5 py-md-0">
           <h4 className="text-success">Sign UP</h4>
           <Button
@@ -142,6 +142,7 @@ function Register() {
             </Alert>
           </Snackbar>
         </form>
+        <p className="text-center pt-5">@2024.All rights Reserved</p>
       </div>
     </div>
   );
