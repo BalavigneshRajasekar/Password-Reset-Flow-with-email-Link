@@ -28,7 +28,7 @@ function ForgotPassword() {
     setBtnLoad(true);
     try {
       const response = await axios.post(
-        "https://password-reset-zylx.onrender.com/api1/resetLink",
+        "https://password-reset-flow-with-email-link.onrender.com/api1/resetLink",
         {
           userMail,
         }
@@ -60,7 +60,7 @@ function ForgotPassword() {
       setBtnLoad(true);
       try {
         const response = await axios.post(
-          "https://password-reset-zylx.onrender.com/api/reset/password",
+          "https://password-reset-flow-with-email-link.onrender.com/api/reset/password",
           { code }
         );
         setSnackBar({
