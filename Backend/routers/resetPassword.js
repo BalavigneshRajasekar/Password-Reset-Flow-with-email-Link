@@ -33,7 +33,7 @@ resetPassword.post("/reset/password", async (req, res) => {
           button: {
             color: "#22BC66",
             text: "Reset Password",
-            link: `https://password-reset-zylx.onrender.com/api/resetPassword/${checkCode._id}`,
+            link: `http://localhost:3000/api/resetPassword/${checkCode._id}`,
           },
         },
       },
@@ -88,7 +88,7 @@ resetPassword.get("/resetPassword/:id", async (req, res) => {
 
 //reset the password and render the succesfull message
 resetPassword.post("/resetPassword/:id", async (req, res) => {
-  const { newPassword } = req.body;
+  const { newPassword, confirmNewPassword } = req.body;
   const { id } = req.params;
   try {
     const hashPassword = await bcrypt.hash(newPassword, 10);
