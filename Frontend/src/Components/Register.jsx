@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
@@ -9,12 +9,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import { Button } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
+import "../App.css";
 
 function Register() {
   const navigate = useNavigate();
-  const [btnLoad, setBtnLoad] = useState(false);
+  const [btnLoad, setBtnLoad] = useState(false); //for loading while submitting
 
   const [snackBar, setSnackBar] = useState({
+    //For alert messages
     open: false,
     message: "",
     severity: "success",
@@ -22,15 +24,17 @@ function Register() {
     horizontal: "center",
   });
   const { vertical, horizontal } = snackBar;
+  //Hold the SignUP details
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setBtnLoad(true);
-
+    console.log(formData);
     try {
       const res = await axios.post(
         "https://password-reset-zylx.onrender.com/register/user",
@@ -46,10 +50,7 @@ function Register() {
       setTimeout(() => {
         navigate("/login");
       }, 4000);
-
-      console.log(res);
     } catch (e) {
-      console.log(e);
       setSnackBar({
         ...snackBar,
         open: true,
@@ -64,86 +65,79 @@ function Register() {
     setSnackBar({ ...snackBar, open: false });
   };
   return (
-    <div className="">
-      <div className="bg-dark">
-        <h1 className="text-center">
-          <PersonPinIcon
-            sx={{ fontSize: "100px", color: "pink" }}
-          ></PersonPinIcon>
-        </h1>
-      </div>
-      <div className="container bg-light   rounded-5">
-        <div className="d-flex justify-content-between px-5 m-md-5 py-5 py-md-0">
-          <h4 className="text-success">Sign UP</h4>
-          <Button
-            variant="outlined"
-            endIcon={<LoginIcon></LoginIcon>}
-            onClick={() => navigate("/login")}
-          >
-            Sign IN
-          </Button>
-        </div>
-        <form onSubmit={handleSubmit} className="form m-md-5 px-5">
-          <label htmlFor="name" className="col-form-label">
-            Name
-          </label>
+    <div className=" d-flex justify-content-between flex-wrap">
+      <form className="form " onSubmit={handleSubmit}>
+        <p className="title">Register </p>
+        <p className="message">Signup now and get full access to our app. </p>
+
+        <label>
           <input
-            placeholder="johndoe"
-            className="form-control"
+            required=""
+            placeholder=""
             type="text"
-            id="name"
+            className="input"
             value={formData.name}
             onChange={(e) =>
               setFormData({ ...formData, ["name"]: e.target.value })
             }
-          />
-          <br></br>
-          <label htmlFor="email" className="col-form-label">
-            Email
-          </label>
+          ></input>
+          <span>Name</span>
+        </label>
+
+        <label>
           <input
-            placeholder="johndoe@gmail.com"
-            className="form-control"
+            required=""
+            placeholder=""
             type="email"
-            id="email"
+            className="input"
             value={formData.email}
             onChange={(e) =>
               setFormData({ ...formData, ["email"]: e.target.value })
             }
-          />
-          <br></br>
-          <label htmlFor="password" className="col-form-label">
-            Password
-          </label>
+          ></input>
+          <span>Email</span>
+        </label>
+
+        <label>
           <input
-            className="form-control"
+            required=""
+            placeholder=""
             type="password"
-            id="password"
+            className="input"
             value={formData.password}
             onChange={(e) =>
               setFormData({ ...formData, ["password"]: e.target.value })
             }
-          />
-          <br></br>
-          <span>
-            <LoadingButton loading={btnLoad} variant="contained" type="submit">
-              <span>Submit</span>
-            </LoadingButton>
-          </span>
-          <Snackbar
-            open={snackBar.open}
-            onClose={handleClose}
-            autoHideDuration={3000}
-            anchorOrigin={{ vertical, horizontal }}
-            key={vertical + horizontal}
-          >
-            <Alert severity={snackBar.severity}>
-              <AlertTitle>{snackBar.severity}</AlertTitle>
-              {snackBar.message}
-            </Alert>
-          </Snackbar>
-        </form>
-        <p className="text-center pt-5">@2024.All rights Reserved</p>
+          ></input>
+          <span>Password</span>
+        </label>
+
+        <LoadingButton
+          loading={btnLoad}
+          variant="contained"
+          className="submit"
+          type="submit"
+        >
+          Submit
+        </LoadingButton>
+        <p className="signin">
+          Already have an acount ? <Link to={"/login"}>Signin</Link>{" "}
+        </p>
+        <Snackbar
+          open={snackBar.open}
+          onClose={handleClose}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical, horizontal }}
+          key={vertical + horizontal}
+        >
+          <Alert severity={snackBar.severity}>
+            <AlertTitle>{snackBar.severity}</AlertTitle>
+            {snackBar.message}
+          </Alert>
+        </Snackbar>
+      </form>
+      <div className="">
+        <img src="../register.avif" alt="" />
       </div>
     </div>
   );

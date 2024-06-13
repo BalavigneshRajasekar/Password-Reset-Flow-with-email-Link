@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import React, { useState } from "react";
@@ -5,9 +6,12 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Link, useNavigate } from "react-router-dom";
+import "./forgotPassword.css";
 
 function ForgotPassword() {
   const [userMail, setUserMail] = useState();
+  const navigate = useNavigate();
 
   const [code, setCode] = useState(false);
   const [btnLoad, setBtnLoad] = useState(false);
@@ -65,6 +69,9 @@ function ForgotPassword() {
           message: response.data.message,
         });
         setBtnLoad(false);
+        setTimeout(() => {
+          navigate("/login");
+        }, 4000);
       } catch (err) {
         setSnackBar({
           ...snackBar,
@@ -80,51 +87,66 @@ function ForgotPassword() {
     setSnackBar({ ...snackBar, open: false });
   };
   return (
-    <div>
-      <div className="container bg-light py-3 mt-3 rounded-5">
-        <h4 className="py-3 px-5 text-success">Verification Code</h4>
-        <form onSubmit={handleSubmit} className="form m-md-5 px-5">
-          <label htmlFor="email" className="col-form-label">
-            Email
-          </label>
-          <input
-            placeholder="johndoe@gmail.com"
-            className="form-control"
-            type="email"
-            id="email"
-            value={userMail}
-            onChange={(e) => setUserMail(e.target.value)}
-          />
-          <br></br>
-          {code && (
+    <div className="d-flex justify-content-between align-items-center flex-wrap-reverse gap-5">
+      <div className="form-container">
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="logo-container">Forgot Password</div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
             <input
-              onChange={handleCode}
               type="text"
-              className="form-control"
-              placeholder="enter code"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required=""
+              onChange={(e) => setUserMail(e.target.value)}
             ></input>
+          </div>
+          {code && (
+            <div className="form-group">
+              <label htmlFor="email">Verification code</label>
+              <input
+                type="text"
+                id="email"
+                name="code"
+                placeholder="Enter your email"
+                required=""
+                onChange={handleCode}
+              ></input>
+            </div>
           )}
-          <br></br>
 
-          <span>
-            <LoadingButton loading={btnLoad} variant="contained" type="submit">
-              <span>Send verification code</span>
-            </LoadingButton>
-          </span>
-          <Snackbar
-            open={snackBar.open}
-            onClose={handleClose}
-            autoHideDuration={3000}
-            anchorOrigin={{ vertical, horizontal }}
-            key={vertical + horizontal}
+          <LoadingButton
+            variant="contained"
+            loading={btnLoad}
+            className="form-submit-btn"
+            type="submit"
           >
-            <Alert severity={snackBar.severity}>
-              <AlertTitle>{snackBar.severity}</AlertTitle>
-              {snackBar.message}
-            </Alert>
-          </Snackbar>
+            Send Email
+          </LoadingButton>
+          <p className="signup-link">
+            Don't have an account?
+            <Link to={"/"} className="signup-link link">
+              {" "}
+              Sign up now
+            </Link>
+          </p>
         </form>
-        <p className="text-center pt-5 mt-5">@2024.All rights Reserved</p>
+        <Snackbar
+          open={snackBar.open}
+          onClose={handleClose}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical, horizontal }}
+          key={vertical + horizontal}
+        >
+          <Alert severity={snackBar.severity}>
+            <AlertTitle>{snackBar.severity}</AlertTitle>
+            {snackBar.message}
+          </Alert>
+        </Snackbar>
+      </div>
+      <div>
+        <img className="img" src="../otp.jpg"></img>
       </div>
     </div>
   );
