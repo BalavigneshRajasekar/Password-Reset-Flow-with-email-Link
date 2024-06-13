@@ -43,6 +43,7 @@ function ForgotPassword() {
 
       setCode(true);
     } catch (error) {
+      console.log(error);
       setBtnLoad(false);
       setSnackBar({
         ...snackBar,
