@@ -33,7 +33,7 @@ resetPassword.post("/reset/password", async (req, res) => {
           button: {
             color: "#22BC66",
             text: "Reset Password",
-            link: `http://localhost:3000/api/resetPassword/${checkCode._id}`,
+            link: `https://password-reset-flow-with-email-link.onrender.com/api/resetPassword/${checkCode._id}`,
           },
         },
       },
