@@ -33,7 +33,7 @@ function Register() {
 
     try {
       const res = await axios.post(
-        "https://resetpassword-api.onrender.com/register/user",
+        "https://password-reset-zylx.onrender.com/register/user",
         formData
       );
       setSnackBar({
@@ -49,6 +49,7 @@ function Register() {
 
       console.log(res);
     } catch (e) {
+      console.log(e);
       setSnackBar({
         ...snackBar,
         open: true,
