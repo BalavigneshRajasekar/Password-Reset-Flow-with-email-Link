@@ -2,6 +2,7 @@ const express = require("express");
 const nodeMailer = require("nodemailer");
 const mailDesign = require("mailgen");
 const signup = require("../models/signup.js");
+require("dotenv").config();
 
 const resetRouter = express.Router();
 //FUnction for create Random string
@@ -48,7 +49,7 @@ resetRouter.post("/resetLink", async (req, res) => {
       service: "gmail",
       auth: {
         user: "vigneshvickybsc1999@gmail.com",
-        pass: "nudjwwnwfcovcrbb",
+        pass: process.env.PASS,
       },
     });
     const messages = {

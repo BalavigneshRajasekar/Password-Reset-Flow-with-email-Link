@@ -3,6 +3,7 @@ const nodeMailer = require("nodemailer");
 const mailDesign = require("mailgen");
 const signup = require("../models/signup.js");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 const resetPassword = express.Router();
 
@@ -42,7 +43,7 @@ resetPassword.post("/reset/password", async (req, res) => {
       service: "gmail",
       auth: {
         user: "vigneshvickybsc1999@gmail.com",
-        pass: "nudjwwnwfcovcrbb",
+        pass: process.env.PASS,
       },
     });
 
