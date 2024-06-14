@@ -34,7 +34,7 @@ resetPassword.post("/reset/password", Auth, async (req, res) => {
           button: {
             color: "#22BC66",
             text: "Reset Password",
-            link: `https://password-reset-flow-with-email-link.onrender.com/api/resetPassword/${checkCode._id}`,
+            link: `http://localhost:3000/api/resetPassword/${checkCode._id}`,
           },
         },
       },
@@ -73,7 +73,7 @@ resetPassword.post("/reset/password", Auth, async (req, res) => {
 
 // render Reset password page SSR
 
-resetPassword.get("/resetPassword/:id", Auth, async (req, res) => {
+resetPassword.get("/resetPassword/:id", async (req, res) => {
   const { id } = req.params;
   const verifyUser = await signup.findOne({ _id: id });
   if (!verifyUser) {
