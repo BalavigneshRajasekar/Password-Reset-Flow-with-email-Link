@@ -23,6 +23,8 @@ function ForgotPassword() {
     horizontal: "center",
   });
   const { vertical, horizontal } = snackBar;
+
+  //This function handle when user enter the Email ID
   const handleSubmit = async (e) => {
     e.preventDefault();
     setBtnLoad(true);
@@ -33,7 +35,7 @@ function ForgotPassword() {
           userMail,
         }
       );
-      console.log(response);
+
       localStorage.setItem("token", response.data.data);
       setBtnLoad(false);
       setSnackBar({
@@ -56,6 +58,7 @@ function ForgotPassword() {
     }
   };
 
+  // This function handle when user enters the verification code
   const handleCode = async (e) => {
     let code = e.target.value;
     const token = localStorage.getItem("token");

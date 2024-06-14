@@ -7,6 +7,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import axios from "axios";
 
 function Login() {
   const [btnLoad, setBtnLoad] = useState(false); //for loading while submitting
@@ -23,10 +24,30 @@ function Login() {
     horizontal: "center",
   });
   const { vertical, horizontal } = snackBar;
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Build only for forgot password");
+    setBtnLoad(true);
+    try {
+      const response = await axios.post(
+        "https://password-reset-flow-with-email-link.onrender.com/registered/user/login",
+        formData
+      );
+      setSnackBar({
+        ...snackBar,
+        open: true,
+        severity: "success",
+        message: response.data.message,
+      });
+      setBtnLoad(false);
+    } catch (err) {
+      setSnackBar({
+        ...snackBar,
+        open: true,
+        severity: "error",
+        message: err.response.data.message,
+      });
+      setBtnLoad(false);
+    }
   };
   const handleClose = () => {
     setSnackBar({ ...snackBar, open: false });
@@ -97,5 +118,4 @@ function Login() {
     </div>
   );
 }
-
 export default Login;
