@@ -28,11 +28,13 @@ function ForgotPassword() {
     setBtnLoad(true);
     try {
       const response = await axios.post(
-        "https://password-reset-flow-with-email-link.onrender.com/api1/resetLink",
+        "http://localhost:3000/api1/resetLink",
         {
           userMail,
         }
       );
+      console.log(response);
+      localStorage.setItem("token", response.data.data);
       setBtnLoad(false);
       setSnackBar({
         ...snackBar,
@@ -56,12 +58,18 @@ function ForgotPassword() {
 
   const handleCode = async (e) => {
     let code = e.target.value;
+    const token = localStorage.getItem("token");
     if (code.length >= 5) {
       setBtnLoad(true);
       try {
         const response = await axios.post(
-          "https://password-reset-flow-with-email-link.onrender.com/api/reset/password",
-          { code }
+          "http://localhost:3000/api/reset/password",
+          { code },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
         );
         setSnackBar({
           ...snackBar,
@@ -81,6 +89,7 @@ function ForgotPassword() {
           message: err.response.data.message,
         });
         setBtnLoad(false);
+        e.target.value = "";
       }
     }
   };

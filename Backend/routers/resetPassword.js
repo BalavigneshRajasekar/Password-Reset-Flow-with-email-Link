@@ -3,11 +3,12 @@ const nodeMailer = require("nodemailer");
 const mailDesign = require("mailgen");
 const signup = require("../models/signup.js");
 const bcrypt = require("bcrypt");
+const Auth = require("../middlewares/jwtAuth");
 require("dotenv").config();
 
 const resetPassword = express.Router();
 
-resetPassword.post("/reset/password", async (req, res) => {
+resetPassword.post("/reset/password", Auth, async (req, res) => {
   const { code } = req.body;
 
   try {
@@ -72,7 +73,7 @@ resetPassword.post("/reset/password", async (req, res) => {
 
 // render Reset password page SSR
 
-resetPassword.get("/resetPassword/:id", async (req, res) => {
+resetPassword.get("/resetPassword/:id", Auth, async (req, res) => {
   const { id } = req.params;
   const verifyUser = await signup.findOne({ _id: id });
   if (!verifyUser) {

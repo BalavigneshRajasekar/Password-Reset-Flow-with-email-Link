@@ -2,6 +2,7 @@ const express = require("express");
 const nodeMailer = require("nodemailer");
 const mailDesign = require("mailgen");
 const signup = require("../models/signup.js");
+const Jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const resetRouter = express.Router();
@@ -60,12 +61,24 @@ resetRouter.post("/resetLink", async (req, res) => {
       html: mail,
     };
 
+    // create Json web Toke for links expiry
+
+    const token = Jwt.sign(
+      { id: mailCheck._id, name: mailCheck.name },
+      process.env.JWTSECRET,
+      {
+        expiresIn: "180s",
+      }
+    );
+
     transporter
       .sendMail(messages)
       .then((info) => {
         mailCheck.resetCode = code;
         mailCheck.save();
-        res.status(200).json({ message: "Verification code sent" });
+        res
+          .status(200)
+          .json({ message: "Verification code sent", data: token });
       })
       .catch((err) => {
         return res
