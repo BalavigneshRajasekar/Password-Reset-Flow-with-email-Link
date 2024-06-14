@@ -37,7 +37,7 @@ function Register() {
     console.log(formData);
     try {
       const res = await axios.post(
-        "https://password-reset-flow-with-email-link.onrender.com/register/user",
+        "https://resetpassword-odxz.onrender.com/register/user",
         formData
       );
       setSnackBar({

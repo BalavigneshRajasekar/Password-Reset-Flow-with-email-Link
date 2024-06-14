@@ -8,6 +8,7 @@ require("dotenv").config();
 
 const resetPassword = express.Router();
 
+//This endpoint will Verify the Verification code and send Reset password form as response
 resetPassword.post("/reset/password", Auth, async (req, res) => {
   const { code } = req.body;
 
@@ -34,7 +35,7 @@ resetPassword.post("/reset/password", Auth, async (req, res) => {
           button: {
             color: "#22BC66",
             text: "Reset Password",
-            link: `http://localhost:3000/api/resetPassword/${checkCode._id}`,
+            link: `https://resetpassword-odxz.onrender.com/api/resetPassword/${checkCode._id}`,
           },
         },
       },

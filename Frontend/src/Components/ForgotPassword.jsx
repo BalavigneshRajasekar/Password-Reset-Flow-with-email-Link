@@ -30,7 +30,7 @@ function ForgotPassword() {
     setBtnLoad(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/api1/resetLink",
+        "https://resetpassword-odxz.onrender.com/api1/resetLink",
         {
           userMail,
         }
@@ -66,7 +66,7 @@ function ForgotPassword() {
       setBtnLoad(true);
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/reset/password",
+          "https://resetpassword-odxz.onrender.com/api/reset/password",
           { code },
           {
             headers: {

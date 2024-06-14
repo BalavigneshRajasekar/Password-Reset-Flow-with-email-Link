@@ -29,7 +29,7 @@ function Login() {
     setBtnLoad(true);
     try {
       const response = await axios.post(
-        "https://password-reset-flow-with-email-link.onrender.com/registered/user/login",
+        "https://resetpassword-odxz.onrender.com/registered/user/login",
         formData
       );
       setSnackBar({
