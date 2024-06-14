@@ -35,7 +35,7 @@ resetPassword.post("/reset/password", Auth, async (req, res) => {
           button: {
             color: "#22BC66",
             text: "Reset Password",
-            link: `https://resetpassword-odxz.onrender.com/api/resetPassword/${checkCode._id}`,
+            link: `https://resetpassword-odxz.onrender.com/api/resetPassword/${req.user.id}`,
           },
         },
       },
