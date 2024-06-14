@@ -6,35 +6,32 @@ The React coponent that allows users to reset their passwords securely. This fun
 
 #### 1. User Interface for Password Reset Request:
 
-        * A form for users to enter their registered email address to request a password reset.
-        * Informative messages to guide the user through the process.
+        - A form for users to enter their registered email address to request a password reset.
+         Informative messages to guide the user through the process.
 
 #### 2. Email Verification code:
 
-       * Sending an verification code throught the registered mail
-       * The backend API endpoint will take care of the sending mail's
+       - Sending an verification code throught the registered mail
+       - The backend API endpoint will take care of the sending mail's
 
 #### 3.Reset Password Link:
 
-       * Once user's verification code verified Another mail send to the user which has the Reset Password Link
+       - Once user's verification code verified Another mail send to the user which has the Reset Password Link
 
 #### 4. Password Reset Form:
 
-        * Once user Click on the Reset Link It navigates to Reset Password Form
-        * It takes the value and add the verified Password Into DB
+        - Once user Click on the Reset Link It navigates to Reset Password Form
+        - It takes the value and add the verified Password Into DB
 
 #### 5. backend API :
 
-        * Endpoints to handle password reset requests,Verication code generation, and verification.
-        * handle the Register and Login
-        * Updating the user's password in the database after verification.
+        - Endpoints to handle password reset requests,Verication code generation, and verification.
+        - handle the Register and Login
+        - Updating the user's password in the database after verification.
 
 #### API Documentation :
 
      POSTMAN : https://documenter.getpostman.com/view/35282596/2sA3XQg1c4
-
-
-
 
 ## Demo
 
